@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scent Consultant AI</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <main class="container">
+        <header>
+            <h1>Scent Consultant</h1>
+            <p class="subtitle">Temukan karakter aroma yang mendefinisikan dirimu.</p>
+        </header>
+        
+        <div>
+             <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender">
+                    <option value="Unisex">Unisex / Netral</option>
+                    <option value="Pria">Pria</option>
+                    <option value="Wanita">Wanita</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="personality">Kepribadian</label>
+                <input type="text" id="personality" placeholder="Misal: Ceria, Misterius, Ambisius...">
+            </div>
+
+            <div class="form-group">
+                <label for="occasion">Momen Penggunaan</label>
+                <select id="occasion">
+                    <option value="Dating">Romantic Dinner / Dating</option>
+                    <option value="Daily">Sehari-hari / Kantor</option>
+                    <option value="Hangout">Nongkrong Casual</option>
+                    <option value="Formal Event">Pesta Formal / Kondangan</option>
+                    <option value="Gym/Sport">Olahraga / Outdoor</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="time">Waktu & Cuaca</label>
+                <select id="time">
+                    <option value="Siang Cerah">Siang Hari (Panas/Terang)</option>
+                    <option value="Malam Sejuk">Malam Hari (Sejuk/Dingin)</option>
+                    <option value="Sore Santai">Sore Hari (Golden Hour)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="impression">Kesan yang Diinginkan</label>
+                <input type="text" id="impression" placeholder="Misal: Berkarisma, 'Clean', Sexy, Mahal...">
+            </div>
+
+            <button onclick="consultAI()">Racik Aroma Saya ✨</button>
+        </div>
+
+        <div id="result">
+            <h2 class="result-header">Analisis Olfaktori Anda</h2>
+            <p id="analysis-text" class="analysis-text"></p>
+            
+            <div class="notes-section">
+                <h3 style="font-family: 'Cormorant Garamond'; text-align: center; margin-bottom: 15px;">Komposisi Notes</h3>
+                <ul class="notes-list">
+                    <li><span class="note-label">Top:</span> <span id="top-notes"></span></li>
+                    <li><span class="note-label">Heart:</span> <span id="heart-notes"></span></li>
+                    <li><span class="note-label">Base:</span> <span id="base-notes"></span></li>
+                </ul>
+            </div>
+
+            <h3 style="font-family: 'Cormorant Garamond'; text-align: center; margin-bottom: 20px;">Rekomendasi Kurasi</h3>
+            <div id="parfum-list">
+                </div>
+
+            <div class="tips-box">
+                <p><strong>💡 Tips Penggunaan:</strong><br> <span id="tips-text"></span></p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        async function consultAI() {
+            const btn = document.querySelector('button');
+            const resultDiv = document.getElementById('result');
+            
+            const data = {
+                gender: document.getElementById('gender').value,
+                personality: document.getElementById('personality').value,
+                occasion: document.getElementById('occasion').value,
+                time: document.getElementById('time').value,
+                impression: document.getElementById('impression').value
+            };
+
+            if(!data.personality || !data.impression) {
+                alert("Mohon lengkapi kepribadian dan kesan yang diinginkan agar analisis akurat.");
+                return;
+            }
+
+            btn.innerText = "Sedang Meracik Komposisi...";
+            btn.disabled = true;
+            resultDiv.style.display = 'none';
+            
+            try {
+                // Pastikan backend Python menyala
+                const response = await fetch('http://127.0.0.1:8000/consult-gemini', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                // --- Mengisi Data ke Tampilan Baru ---
+
+                // 1. Analisis Singkat
+                document.getElementById('analysis-text').innerText = result.analisis_singkat;
+
+                // 2. Notes
+                document.getElementById('top-notes').innerText = result.notes_rekomendasi.top_notes;
+                document.getElementById('heart-notes').innerText = result.notes_rekomendasi.heart_notes;
+                document.getElementById('base-notes').innerText = result.notes_rekomendasi.base_notes;
+
+                // 3. List Parfum (Looping)
+                const parfumListDiv = document.getElementById('parfum-list');
+                parfumListDiv.innerHTML = ''; // Bersihkan hasil sebelumnya
+
+                result.rekomendasi_parfum.forEach(parfum => {
+                    const parfumCard = `
+                        <div class="parfum-card">
+                            <div class="parfum-name">${parfum.nama}</div>
+                            <div style="color: var(--text-secondary); font-size: 0.95rem;">${parfum.deskripsi_wangi}</div>
+                        </div>
+                    `;
+                    parfumListDiv.innerHTML += parfumCard;
+                });
+
+                // 4. Tips
+                document.getElementById('tips-text').innerText = result.tips_penggunaan;
+
+                // Tampilkan Hasil dengan Animasi
+                resultDiv.style.display = 'block';
+                resultDiv.scrollIntoView({ behavior: 'smooth' }); // Scroll otomatis ke bawah
+
+            } catch (error) {
+                console.error(error);
+                alert("Maaf, konsultan AI sedang sibuk. Mohon coba beberapa saat lagi.");
+            } finally {
+                btn.innerText = "Racik Aroma Saya ✨";
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

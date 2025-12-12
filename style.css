@@ -1,0 +1,243 @@
+/* --- CSS VARIABLES (Palet Warna) --- */
+        :root {
+            --bg-color: #f3f0eb; /* Warna latar belakang krem lembut */
+            --card-color: #ffffff; /* Warna kartu putih bersih */
+            --text-primary: #2c2c2c; /* Warna teks utama abu tua */
+            --text-secondary: #666666;
+            --accent-gold: #bfa473; /* Warna aksen emas/beige mewah */
+            --shadow-soft: 0 10px 30px -10px rgba(0,0,0,0.1);
+        }
+
+        /* --- RESET & BASE STYLES --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: url('Gemini_Generated_Image_og4esvog4esvog4e.png');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* --- MAIN CONTAINER (KARTU UTAMA) --- */
+        .container {
+            background-color: var(--card-color);
+            padding: 40px;
+            border-radius: 24px; /* Sudut membulat modern */
+            box-shadow: var(--shadow-soft);
+            width: 100%;
+            max-width: 550px; /* Agar tidak terlalu lebar di layar besar */
+            border: 1px solid rgba(191, 164, 115, 0.2); /* Border emas tipis samar */
+        }
+
+        /* --- TYPOGRAPHY & HEADER --- */
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: 2.5rem;
+            text-align: center;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 35px;
+            font-style: italic;
+        }
+
+        /* --- FORM ELEMENTS --- */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--accent-gold); /* Label warna emas */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            background-color: #fafafa;
+            transition: all 0.3s ease;
+            appearance: none; /* Menghilangkan gaya default browser */
+        }
+
+        /* Efek saat input diklik */
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(191, 164, 115, 0.1);
+        }
+
+        /* Kustomisasi panah dropdown select */
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23bfa473' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* --- BUTTON --- */
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--accent-gold), #a88e5e);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            transform: translateY(-3px); /* Tombol naik sedikit saat di-hover */
+            box-shadow: 0 10px 20px -10px rgba(191, 164, 115, 0.5);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* --- RESULT SECTION --- */
+        #result {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+            display: none; /* Disembunyikan di awal */
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .analysis-text {
+            font-style: italic;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .notes-section {
+            background-color: #f9f7f4;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            border: 1px dashed var(--accent-gold);
+        }
+
+        .notes-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .notes-list li {
+            margin-bottom: 10px;
+            display: flex;
+        }
+
+        .note-label {
+            font-weight: 600;
+            color: var(--accent-gold);
+            width: 80px;
+            flex-shrink: 0;
+        }
+
+        .parfum-card {
+            background: #fff;
+            border: 1px solid #eee;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        
+        .parfum-card:hover {
+             border-color: var(--accent-gold);
+             box-shadow: var(--shadow-soft);
+        }
+
+        .parfum-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .tips-box {
+            background-color: var(--bg-color);
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-align: left;
+        }
+
+    @media (max-width: 425px) {
+            /* Mengubah arah layout dari samping (row) ke bawah (column) */
+            .notes-list li {
+                flex-direction: column; 
+                align-items: center;
+                text-align: center;
+                margin-bottom: 25px; /* Memberi jarak lebih antar baris notes */
+                padding-bottom: 15px;
+                border-bottom: 1px solid rgba(191, 164, 115, 0.2); /* Garis pemisah tipis biar rapi */
+            }
+
+            /* Menghilangkan garis pemisah di item terakhir */
+            .notes-list li:last-child {
+                border-bottom: none;
+                margin-bottom: 0;
+            }
+
+            /* Mengatur ulang label (Top/Heart/Base) */
+            .note-label {
+                width: auto; /* Lepaskan batasan lebar 80px */
+                margin-bottom: 8px; /* Jarak antara Label dan Deskripsi */
+                font-size: 1.1rem; /* Sedikit diperbesar agar jelas sebagai judul */
+                text-decoration-color: var(--accent-gold);
+            }
+        }
