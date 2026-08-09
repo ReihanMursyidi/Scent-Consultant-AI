@@ -96,4 +96,4 @@ if __name__ == "__main__":
     @app.get("/")
     def read_root():
         return {"status": "Server Berjalan Aman!", "pesan": "Buka file index.html untuk mulai konsultasi."}
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
