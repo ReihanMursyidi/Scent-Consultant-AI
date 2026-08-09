@@ -15,7 +15,7 @@ if not api_key:
 genai.configure(api_key=api_key)
 
 model = genai.GenerativeModel(
-    model_name="gemini-2.5-flash",
+    model_name="gemini-3.5-flash",
     system_instruction="""
     Kamu adalah seorang 'Master Perfumer' (Ahli Parfum) profesional dengan pengalaman 20 tahun. 
     Tugasmu adalah menganalisis profil pengguna dan memberikan rekomendasi parfum yang sangat spesifik.
@@ -39,6 +39,11 @@ class UserPreferences(BaseModel):
     occasion: str
     time: str
     impression: str
+
+# 1. Route Root dipindahkan ke luar agar terbaca oleh Vercel
+@app.get("/")
+def read_root():
+    return {"status": "Server Berjalan Aman!", "pesan": "API Konsultan Parfum Siap Digunakan."}
 
 @app.post("/consult-gemini")
 async def consult_gemini(prefs: UserPreferences):
@@ -91,9 +96,7 @@ async def consult_gemini(prefs: UserPreferences):
         print(f"Error: {e}")
         raise HTTPException(status_code=500, detail="Terjadi kesalahan pada AI Consultant.")
 
+# Blok ini hanya akan berjalan jika di-test di komputer lokal menggunakan: python api/index.py
 if __name__ == "__main__":
     import uvicorn
-    @app.get("/")
-    def read_root():
-        return {"status": "Server Berjalan Aman!", "pesan": "Buka file index.html untuk mulai konsultasi."}
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run("api.index:app", host="0.0.0.0", port=8000, reload=True)
