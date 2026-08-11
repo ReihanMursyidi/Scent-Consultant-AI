@@ -2,7 +2,7 @@
 
 **Temukan Karakter Aroma yang Mendefinisikan Dirimu.**
 
-Scent Consultant AI adalah aplikasi cerdas yang bertindak sebagai "Master Perfumer" pribadi Anda. Menggunakan kekuatan **Google Gemini 2.5 Flash**, aplikasi ini menganalisis kepribadian, momen, dan preferensi Anda untuk meracik rekomendasi parfum yang sangat spesifik dan personal.
+Scent Consultant AI adalah aplikasi cerdas yang bertindak sebagai "Master Perfumer" pribadi Anda. Menggunakan kekuatan **Google Gemini 3.5 Flash**, aplikasi ini menganalisis kepribadian, momen, dan preferensi Anda untuk meracik rekomendasi parfum yang sangat spesifik dan personal.
 
 Dibangun dengan **FastAPI** di backend untuk pemrosesan AI yang cepat, dan antarmuka web elegan yang memberikan pengalaman selayaknya berkonsultasi di butik parfum mewah.
 
