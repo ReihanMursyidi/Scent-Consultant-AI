@@ -45,7 +45,7 @@ class UserPreferences(BaseModel):
 def read_root():
     return {"status": "Server Berjalan Aman!", "pesan": "API Konsultan Parfum Siap Digunakan."}
 
-@app.post("/consult-gemini")
+@app.post("/api/consult-gemini")
 async def consult_gemini(prefs: UserPreferences):
     try:
         prompt = f"""
